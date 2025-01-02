@@ -32,6 +32,7 @@ public class PlayManager : MonoBehaviour
     [Header("サーブ後最初のレシーブをしたか")]private bool isFirstReceive;
     [Header("ボールが落ちたか")]private bool isFallBall;
     [Header("リセット中か")]private bool isReset;
+    [Header("最初のリセットのフラグ")]private bool isFirstReset;
     [Header("リセットの時間")]private float resetMaxtTime = 1f;
     [Header("リセットしている時間")]private float resetTime;
     [Header("得点")]private int[] points = new int[2];
@@ -101,9 +102,10 @@ public class PlayManager : MonoBehaviour
     
 
     private void ResetProcess(){
-        if(isFallBall){
+        if(isFallBall && !isFirstReset){
+            isFirstReset = true;
             isReset = true;
-            isFallBall = false;
+            
             var isBreak = false;
             if(lastTouchPlayer.GetIsPlayer()){
                 var ballX = ballObj.transform.position.x;
@@ -190,6 +192,8 @@ public class PlayManager : MonoBehaviour
                 pointTexts[0].text = points[0].ToString();
                 pointTexts[1].text = points[1].ToString();
                 Debug.Log("おわり");
+                isFirstReset = false;
+                isFallBall = false;
             }
         }
     }
@@ -248,6 +252,10 @@ public class PlayManager : MonoBehaviour
     /// <param name="isFallBall"></param>
     public void SetIsFallBall(bool isFallBall){
         this.isFallBall = isFallBall;
+    }
+
+    public bool GetIsFallBall(){
+        return isFallBall;
     }
 
     /// <summary>

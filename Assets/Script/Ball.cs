@@ -33,7 +33,10 @@ public class Ball : MonoBehaviour
     private void OnCollisionEnter(Collision other) {
         if(other.gameObject.tag == "Flore"){
             isEnter = true;
-            playManager.SetIsFallBall(true);
+            if(!playManager.GetIsFallBall()){
+                playManager.SetIsFallBall(true);
+            }
+            
             Vector3 bounce = new Vector3(0, -prevVelocity.y * 0.6f, 0) * _rigidbody.mass;
             Debug.Log(_rigidbody.velocity);
             Debug.Log(prevVelocity);

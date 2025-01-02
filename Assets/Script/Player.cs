@@ -750,7 +750,6 @@ private IEnumerator SpikeAfterDelay(){
             dir.y = 0;
 
             if(dir.magnitude < 1f) return;
-            Debug.Log("フライング" + "時間" + playManager.GetBallReachTime(0,false) + "距離" + dir.magnitude);
             var moveTime = dir.magnitude/moveSpeed;
             var fallTime = playManager.GetBallReachTime(ball.transform.localScale.x/2,false);
             if(fallTime < moveTime && fallTime < flyingNeedTime){
@@ -772,7 +771,6 @@ private IEnumerator SpikeAfterDelay(){
                 var maxSpeed = moveNormalSpeed*flyingSpeedRatio;
                 if(flyingTime < flyingNeedTime*flyingTimeRatio){
                     //フライングで速い移動時間
-                    Debug.Log("フライング介し");
                     animation_isFlying = true;
                     moveSpeed = maxSpeed;
                 }else if(flyingTime < flyingNeedTime *flyingFreezeStartRatio){
@@ -1042,7 +1040,10 @@ private IEnumerator SpikeAfterDelay(){
                                 animation_isSet = true;
                                 animation_isSet_Over = true;
                                 moveToPos = playManager.GetBallPoint(tall);
-                                Rotation(moveToPos-pos,new Vector3(0,pos.y,pos.z));
+                                Rotation(moveToPos-pos,new Vector3(playManager.GetWillSpikePlayer(isPlayer).transform.position.x,pos.y,pos.z));
+
+                                
+                                // Rotation(moveToPos-pos,new Vector3(0,pos.y,pos.z));
                             }else{
                                 //これからスパイクする人
                                 animation_isSet = false;
